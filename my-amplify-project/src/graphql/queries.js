@@ -39,15 +39,17 @@ export const listPosts = /* GraphQL */ `
     }
   }
 `;
-export const postsByCreatedAt = /* GraphQL */ `
-  query PostsByCreatedAt(
-    $createdAt: AWSDateTime!
+export const PostsByCreatedat = /* GraphQL */ `
+  query PostsByCreatedat(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelPostFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    postsByCreatedAt(
+    PostsByCreatedat(
+      type: $type
       createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
