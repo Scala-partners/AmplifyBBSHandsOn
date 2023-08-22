@@ -8,11 +8,21 @@ export const getPost = /* GraphQL */ `
       type
       username
       content
-      imageUrl
+      email
       createdAt
+      comments {
+        items {
+          id
+          content
+          createdAt
+          owner
+          updatedAt
+          postCommentsId
+        }
+        nextToken
+      }
       owner
       updatedAt
-      __typename
     }
   }
 `;
@@ -28,18 +38,19 @@ export const listPosts = /* GraphQL */ `
         type
         username
         content
-        imageUrl
+        email
         createdAt
+        comments {
+          nextToken
+        }
         owner
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
-export const PostsByCreatedat = /* GraphQL */ `
+export const postsByCreatedat = /* GraphQL */ `
   query PostsByCreatedat(
     $type: String!
     $createdAt: ModelStringKeyConditionInput
@@ -61,14 +72,69 @@ export const PostsByCreatedat = /* GraphQL */ `
         type
         username
         content
-        imageUrl
+        email
+        createdAt
+        comments {
+          nextToken
+        }
+        owner
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
+      id
+      post {
+        id
+        type
+        username
+        content
+        email
+        createdAt
+        comments {
+          nextToken
+        }
+        owner
+        updatedAt
+      }
+      content
+      createdAt
+      owner
+      updatedAt
+      postCommentsId
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        post {
+          id
+          type
+          username
+          content
+          email
+          createdAt
+          owner
+          updatedAt
+        }
+        content
         createdAt
         owner
         updatedAt
-        __typename
+        postCommentsId
       }
       nextToken
-      __typename
     }
   }
 `;

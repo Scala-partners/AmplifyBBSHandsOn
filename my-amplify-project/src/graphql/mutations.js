@@ -11,11 +11,21 @@ export const createPost = /* GraphQL */ `
       type
       username
       content
-      imageUrl
+      email
       createdAt
+      comments {
+        items {
+          id
+          content
+          createdAt
+          owner
+          updatedAt
+          postCommentsId
+        }
+        nextToken
+      }
       owner
       updatedAt
-      __typename
     }
   }
 `;
@@ -29,11 +39,21 @@ export const updatePost = /* GraphQL */ `
       type
       username
       content
-      imageUrl
+      email
       createdAt
+      comments {
+        items {
+          id
+          content
+          createdAt
+          owner
+          updatedAt
+          postCommentsId
+        }
+        nextToken
+      }
       owner
       updatedAt
-      __typename
     }
   }
 `;
@@ -47,11 +67,105 @@ export const deletePost = /* GraphQL */ `
       type
       username
       content
-      imageUrl
+      email
+      createdAt
+      comments {
+        items {
+          id
+          content
+          createdAt
+          owner
+          updatedAt
+          postCommentsId
+        }
+        nextToken
+      }
+      owner
+      updatedAt
+    }
+  }
+`;
+export const createComment = /* GraphQL */ `
+  mutation CreateComment(
+    $input: CreateCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    createComment(input: $input, condition: $condition) {
+      id
+      post {
+        id
+        type
+        username
+        content
+        email
+        createdAt
+        comments {
+          nextToken
+        }
+        owner
+        updatedAt
+      }
+      content
       createdAt
       owner
       updatedAt
-      __typename
+      postCommentsId
+    }
+  }
+`;
+export const updateComment = /* GraphQL */ `
+  mutation UpdateComment(
+    $input: UpdateCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    updateComment(input: $input, condition: $condition) {
+      id
+      post {
+        id
+        type
+        username
+        content
+        email
+        createdAt
+        comments {
+          nextToken
+        }
+        owner
+        updatedAt
+      }
+      content
+      createdAt
+      owner
+      updatedAt
+      postCommentsId
+    }
+  }
+`;
+export const deleteComment = /* GraphQL */ `
+  mutation DeleteComment(
+    $input: DeleteCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    deleteComment(input: $input, condition: $condition) {
+      id
+      post {
+        id
+        type
+        username
+        content
+        email
+        createdAt
+        comments {
+          nextToken
+        }
+        owner
+        updatedAt
+      }
+      content
+      createdAt
+      owner
+      updatedAt
+      postCommentsId
     }
   }
 `;
