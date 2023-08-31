@@ -76,6 +76,13 @@ export const postsByCreatedat = /* GraphQL */ `
         createdAt
         comments {
           nextToken
+          items {
+            content
+            createdAt
+            owner
+            updatedAt
+            postCommentsId
+          }
         }
         owner
         updatedAt
