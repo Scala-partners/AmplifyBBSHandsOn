@@ -1,0 +1,35 @@
+# 掲示板に対する書き込み
+type Post
+  @model
+  @auth( # 追加部分
+    rules: [
+      { allow: owner, operations: [create, update, delete, read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  type: String!
+    @default(value: "POST")
+    @index(
+      name: "PostsByCreatedat"
+      queryField: "PostsByCreatedat"
+      sortKeyFields: ["createdAt"]
+    )
+  username: String!
+  content: String!
+  email: String
+  createdAt: AWSDateTime!
+  comments: [Comment] @hasMany
+  owner: String
+}
+
+# 掲示板の書き込みに対するコメント
+type Comment
+  @model
+  @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {  # 追加部分
+  id: ID!
+  post: Post @belongsTo
+  content: String!
+  createdAt: AWSDateTime!
+  owner: String
+}
