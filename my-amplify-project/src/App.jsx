@@ -6,7 +6,7 @@ import "@aws-amplify/ui-react/styles.css";
 import awsExports from "./aws-exports";
 import "./App.css";
 import { createPost, createComment } from "./graphql/mutations";
-import { postsByCreatedat, listComments } from "./graphql/queries";
+import { postsByCreatedat } from "./graphql/queries";
 
 Amplify.configure(awsExports);
 
@@ -40,9 +40,6 @@ function App({ signOut, user }) {
     setSelectedPost(post);
     setShowCommentPopup(true);
   };
-
-  // テキスト内の改行をHTMLの<br>タグに変換するための関数
-  const textWithBreaks = (text) => ({ __html: text.replace(/\n/g, "<br />") });
 
   /**
    * 日付をわかりやすい形式に変換するための関数
@@ -158,49 +155,6 @@ function App({ signOut, user }) {
             </li>
           </ul>
           <p>全てのユーザーが快適に利用できるようにご協力ください。</p>
-        </div>
-        <div className="postsList">
-          {posts.map((post, index) => (
-            <div key={post.id} className="post">
-              <h3>
-                {index + 1}: {post.username} {formatDate(post.createdAt)}
-              </h3>
-              <p>{post.content}</p>
-              <div className="postButtons">
-                <button onClick={() => toggleComments(post.id)}>
-                  {openPosts.includes(post.id)
-                    ? "コメントを閉じる"
-                    : "コメントを表示"}
-                </button>
-                <button onClick={() => openCommentPopup(post)}>
-                  コメントを追加
-                </button>
-              </div>
-              {openPosts.includes(post.id) && (
-                <div className="postComments">
-                  {post.comments.items
-                    .sort(
-                      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-                    )
-                    .map((comment) => (
-                      <div key={comment.id} className="singleComment">
-                        <span className="commentUser">
-                          {comment.owner || "名無し"}
-                        </span>
-                        <span className="commentDate">
-                          {formatDate(comment.createdAt)}
-                        </span>
-                        <p
-                          dangerouslySetInnerHTML={textWithBreaks(
-                            comment.content
-                          )}
-                        ></p>
-                      </div>
-                    ))}
-                </div>
-              )}
-            </div>
-          ))}
         </div>
 
         <div className="postForm">
